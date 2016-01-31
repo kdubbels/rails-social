@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
   
   has_many :comments, dependent: :destroy
 
+  has_secure_password
+
+  validates :email, presence: true, uniqueness: true
+
   def following?(leader)
   	leaders.include? leader
   end
@@ -21,4 +25,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  def timeline_user_ids
+    leader_ids + [id]
+  end
+  
 end
